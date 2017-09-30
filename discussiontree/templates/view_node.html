@@ -1,0 +1,9 @@
+<html>
+{% for claim in claims %}
+    <p>
+        {{ claim.title }}<br/>
+        {{ claim.text }}<br/>
+        <a href="view_node/{{ claim.pk }}">View tree</a>
+    </p>
+{% endfor %}
+</html>

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Create a {{ node_type.name }}{% endblock %}
+{% block content %}
+{% for claim in claims %}
+    <p>
+        {{ claim.title }}<br/>
+        {{ claim.text }}<br/>
+        <a href="view_node/{{ claim.pk }}">View tree</a>
+    </p>
+{% endfor %}
+{% endblock %}

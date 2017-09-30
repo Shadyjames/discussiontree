@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Create a {{ node_type.name }}{% endblock %}
+{% block content %}
+<h2>Create a {{ node_type.name }}</h2>
+<form method="POST">
+    <div class="row">
+        <div class="col-lg-5">
+            {{ node_type.name }} type: <select id="subtype_drop" style='max-width: 100%;'>
+            </select>
+            <div class="code" id="subtype_explanation"></div>
+        </div>
+        <div class="col-lg-7">
+            <div class="card">
+                <div class="card-block">
+                    <!--<div class="card-title">Complete the text of your {{ node_type.name }}</div>-->
+                    <div class="card-text" id="text_container"></div>
+                </div>
+            </div>
+            <button type="submit" class="btn">Create {{ node_type.name }}</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
+{% block script %}
+<script>
+var subtypes = {{ subtypes|safe }};
+console.log(subtypes);
+for (var key in subtypes){
+    var option_str = "<option value='" + key + "'>" + subtypes[key].name + "</option>";
+    console.log(option_str);
+    var dropdown_opt = $(option_str);
+    $("#subtype_drop").append(dropdown_opt);
+}
+
+function update_selection(event) {
+    var selected_id = $("#subtype_drop").find(":selected").val();
+    var subtype = subtypes[selected_id]
+    $("#subtype_explanation").text(subtype.explanation);
+    var text_container = $("#text_container");
+    text_container.empty();
+    for (var i = 0; i < subtype.template.length; i++){
+        if (subtype.template[i] == null){
+            text_input = $("<textarea name='body"+i+"' style='min-width: 100%' rows='2'>")
+            if (i == subtype.template.length - 1){
+                text_input.attr("placeholder", "Additional details (optional)")
+            }else{
+                text_input.attr("placeholder", "Fill me in")
+            }
+            text_container.append(text_input);
+        }else{
+            text_container.append($("<div>"+subtype.template[i]+"</div>"));
+        }
+    }
+};
+$("#subtype_drop").on("change", update_selection)
+update_selection(null);
+</script>
+{% endblock %}

@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# vim swapfiles
+*.swp
+
 # Distribution / packaging
 .Python
 env/
@@ -99,3 +102,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# deployment-specific overrides config
+overrides.cfg
