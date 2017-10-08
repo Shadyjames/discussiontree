@@ -66,13 +66,19 @@ def populate_initial(apps, schema_editor):
     # Link type cannot have any children. (link is not a parent/child connection, just a url)
 
     # Create the subtypes
+    NodeSubType.objects.create(
+        super_type=question_type,
+        name="Question",
+        explanation="A question is a call for proposals that might answer that question. While a proposition is a place for discussing the factuality of a specific point, a question is a place where propositions compete to be the most credible answer to a question. As such, questions on discussiontree should not be yes or no questions, and must be open-ended. A valid question might be, \"What is the most effective system of government\"? An INVALID question might be, \"Is a democratic republic the most effective system of government?\", since this should instead be rephrased and created as the proposition, \"Democratic republic is the most effective system of government\".",
+        template=[None]
+    )
 
     # Claims don't have subtypes that i'm aware of so every proposition is an "other proposition".
     # The frontend will hide the subtype abstraction for all types with only 1 subtype.
     NodeSubType.objects.create(
         super_type=proposition_type,
         name="Proposition",
-        explanation="A proposition is a statement of a contentious point, phrased as a fact, to create a place for discussion about the points merits. For example: \"We live in a simulated reality\" would be a valid proposition. Do not include qualifiers or assumptions in your proposal. The words \"if\", \"assuming\", nor any similar substitutes should ever be included in a proposition",
+        explanation="A proposition is a statement of a contentious point, phrased as a fact, to create a place for discussion about the points merits. For example: \"We live in a simulated reality\" would be a valid proposition. Do not include qualifiers or assumptions in your proposition. The words \"if\", \"assuming\", nor any similar substitutes should ever be included in a proposition",
         template=[None]
     )
     NodeSubType.objects.create(

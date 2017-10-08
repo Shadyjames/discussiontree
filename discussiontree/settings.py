@@ -106,6 +106,54 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Logging configuration
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOG_DIR = LOG_DIR = os.path.join(BASE_DIR,'logs')
+EXCEPTION_LOG_FILE = os.path.join(LOG_DIR, 'exceptions.log')
+TRACE_LOG_FILE = os.path.join(LOG_DIR, 'trace.log')
+
+def touch(filename):
+    print "Touching %s" % filename
+    dirname = os.path.dirname(filename)
+    if not os.path.exists(dirname):
+        os.makedirs(dirname)
+
+    if not os.path.exists(filename):
+        open(filename, 'a').close()
+
+touch(TRACE_LOG_FILE)
+touch(EXCEPTION_LOG_FILE)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {
+            "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            "datefmt": "%d/%b/%Y %H:%M:%S",
+        }
+    },
+    "handlers": {
+        "tracefile": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": TRACE_LOG_FILE,
+            "formatter": "standard",
+        },
+        "errfile": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": EXCEPTION_LOG_FILE,
+            "formatter": "standard",
+        }
+    },
+    "loggers": {
+        "": {
+            "handlers": ["tracefile", "errfile"],
+            "level": "DEBUG",
+        }
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

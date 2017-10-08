@@ -2,16 +2,21 @@
 {% block title %}Create a {{ node_type.name }}{% endblock %}
 {% block content %}
 <h2>Create a {{ node_type.name }}</h2>
-<form method="POST">
+<form method="POST" id="nodeform">
+    {% csrf_token %}
+    {{parent}}
+    {{parent.pk}}
+    <input type="hidden" name="parent_id" value="{{ parent.pk }}">
     <div class="row">
         <div class="col-lg-5">
-            {{ node_type.name }} type: <select id="subtype_drop" style='max-width: 100%;'>
+            {{ node_type.name }} type: <select id="subtype_drop" style='max-width: 100%;' form="nodeform" name="node_subtype">
             </select>
             <div class="code" id="subtype_explanation"></div>
         </div>
         <div class="col-lg-7">
             <div class="card">
                 <div class="card-block">
+                    <textarea name="title" placeholder="Node title"></textarea>
                     <!--<div class="card-title">Complete the text of your {{ node_type.name }}</div>-->
                     <div class="card-text" id="text_container"></div>
                 </div>
@@ -41,7 +46,8 @@ function update_selection(event) {
     text_container.empty();
     for (var i = 0; i < subtype.template.length; i++){
         if (subtype.template[i] == null){
-            text_input = $("<textarea name='body"+i+"' style='min-width: 100%' rows='2'>")
+            //text_input = $("<textarea name='body"+i+"' style='min-width: 100%' rows='2'>")
+            text_input = $("<textarea name='body' form='nodeform' style='min-width: 100%' rows='2'>")
             if (i == subtype.template.length - 1){
                 text_input.attr("placeholder", "Additional details (optional)")
             }else{

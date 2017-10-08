@@ -1,9 +1,66 @@
-<html>
-{% for claim in claims %}
-    <p>
-        {{ claim.title }}<br/>
-        {{ claim.text }}<br/>
-        <a href="view_node/{{ claim.pk }}">View tree</a>
-    </p>
-{% endfor %}
-</html>
+{% extends "base.html" %}
+{% block title %}Tree index{% endblock %}
+{% block content %}
+<!-- TODO: Create a template for rendering nodes, parent nodes, list of child nodes etc.-->
+<div class="row">
+    <div class="col-lg-3">
+        {% if node.parent %}
+            <h2>Parent</h2>
+                <a href="/view_node/{{ node.parent.pk }}">
+                    <div class="card bordershadow">
+                        <div class="card-block">
+                            <b>Node type:</b> {{ node.parent.node_type.name }}</br>
+                            {% if node.parent.node_type.name != node.parent.node_subtype.name %}
+                                <b>Node type:</b> {{ node.parent.node_type.name }}</br>
+                            {% endif %}
+                            <b>Title:</b> {{ node.parent.title }}</br>
+                        </div>
+                    </div>
+                </a>
+        {% else %}
+            <h4>Node has no parent</h4>
+        {% endif %}
+    </div>
+    <div class="col-lg-5">
+        <h2>Viewing {{ node.node_type.name }}</h2>
+        <b>Node ID:</b> {{ node.pk }}<br/>
+        <b>{{node.node_type.name}} Title:</b> {{ node.title }}<br/>
+        <b>{{node.node_type.name}} Text:</b> {{ node.body }}<br/>
+        <div class="card">
+            <div class="card-block">
+                <h4>Attach a child to this node</h3>
+                {% for child_type in child_types %}
+                    <button type="button" class="btn" style="margin:3px;" onclick="create_node({{ child_type.pk }}, {{ node.id }});">Create a {{ child_type.name }}</button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        {% if node_children %}
+            <h4>Node children</h4>
+            {% for child in node_children %}
+                <a href="/view_node/{{ child.pk }}">
+                    <div class="card bordershadow">
+                        <div class="card-block">
+                            <b>Node type:</b> {{ child.node_type.name }}</br>
+                            {% if child.node_type.name != child.node_subtype.name %}
+                                <b>Node type:</b> {{ child.node_type.name }}</br>
+                            {% endif %}
+                            <b>Title:</b> {{ child.title }}</br>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        {% else %}
+            <h4>Node has no children</h4>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+function create_node(node_type, parent_id) {
+    window.location.href = "/create_node/?node_type="+node_type+"&parent_id="+parent_id;
+}
+</script>
+{% endblock %}

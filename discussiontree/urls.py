@@ -21,9 +21,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^about/?', views.about),
     url(r'^dump_refutations/?', views.dump_refutations),
-    url(r'^claim_index/?', views.claim_index),
+    url(r'^tree_index/?', views.tree_index),
     url(r'^view_node/(?P<node_id>\d+)/?', views.view_node),
     url(r'^create_node/?', views.create_node),
-    url(r'^create_tree/?', views.create_tree),
+    url(r'^create_proposition/?', views.create_proposition),
+    url(r'^create_question/?', views.create_question),
     url(r'^/?', views.about),
 ]

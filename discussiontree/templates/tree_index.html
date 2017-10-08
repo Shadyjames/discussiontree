@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Tree index{% endblock %}
+{% block content %}
+<div class="col-lg-5">
+    {% for node in roots %}
+        <a href="/view_node/{{ node.pk }}">
+            <div class="card bordershadow">
+                <div class="card-block">
+                    <b>Node type:</b> {{ node.node_type.name }}</br>
+                    {% if node.node_type.name != node.node_subtype.name %}
+                        <b>Node type:</b> {{ node.node_type.name }}</br>
+                    {% endif %}
+                    <b>Title:</b> {{ node.title }}</br>
+                    <!--<b>Body:</b> {{ node.body }}</br>-->
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div>
+{% endblock %}
