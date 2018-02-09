@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Create a {{ node_type.name }}{% endblock %}
+{% block content %}
+<h2>Log in</h2>
+<form method="POST" id="loginform">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="card">
+                <div class="card-block">
+                    Username: <input type="text" name="username"><br/>
+                    Password: <input type="password" name="password">
+                </div>
+            </div>
+            <button type="submit" class="btn">Log in</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

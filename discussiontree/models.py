@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.postgres.fields import JSONField
+from django.contrib.auth.models import User
 
 class NodeType(models.Model):
     # eg. "Claim", "Evidence", "Refutation" etc
@@ -34,3 +35,8 @@ class DiscussionNode(models.Model):
 class NodeTypeConnectivity(models.Model):
     parent = models.ForeignKey(NodeType, related_name='+')
     child = models.ForeignKey(NodeType, related_name='+')
+
+class SoundMark(models.Model):
+    user = models.ForeignKey(User)
+    date = models.DateTimeField(auto_now_add=True)
+    node = models.ForeignKey(DiscussionNode)

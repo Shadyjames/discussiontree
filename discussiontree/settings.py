@@ -53,6 +53,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'tokenapi.backends.TokenBackend'
+]
+
 ROOT_URLCONF = 'discussiontree.urls'
 
 TEMPLATES = [

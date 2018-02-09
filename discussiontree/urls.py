@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from discussiontree import views
 
@@ -26,5 +26,8 @@ urlpatterns = [
     url(r'^create_node/?', views.create_node),
     url(r'^create_proposition/?', views.create_proposition),
     url(r'^create_question/?', views.create_question),
+    url(r'^create_user/?', views.create_user),
+    url(r'^token/', include('tokenapi.urls')),
+    url(r'^login/?', views.login),
     url(r'^/?', views.about),
 ]
